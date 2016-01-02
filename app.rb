@@ -9,3 +9,12 @@ get '/' do
 	@posts = Post.all
 	erb :home
 end	
+
+get '/sign_in' do
+	erb :signin	
+end	
+
+post '/sign_in' do
+	puts "my params are" + params.inspect
+
+end	
