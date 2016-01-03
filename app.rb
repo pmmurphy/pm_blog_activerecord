@@ -5,6 +5,10 @@ require "./models"
 
 set :database, "sqlite3:blogdb.sqlite3"
 
+enable :sessions
+
+
+
 get '/' do
 	Post.create(title:"Dog Park", body: "This is a post")
 	@posts = Post.all
@@ -21,6 +25,17 @@ get '/sign_in' do
 end	
 
 post '/sign_in' do
-	puts "my params are" + params.inspect
+	@user = User.where(fname: params[:fname]).first
+
+		if @user && @user.password == params[:password]
+			session[:user_id] =@user.id
+			redirect '/'
+		else
+			redirect '/login-failed'
+	end
+end	
+		
+get '/login-failed' do	
+	"Oh No Something is Wrong. Please Try Again!"
 
 end	
